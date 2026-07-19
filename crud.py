@@ -1,3 +1,5 @@
+import asyncio
+
 from typing_extensions import Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -17,6 +19,8 @@ class TaskCreate(BaseModel):
     
 @app.post("/tasks")
 async def create_task(Task:TaskCreate):
+
+    await asyncio.sleep(0.5)
     new_id = len(tasks_db) + 1
 
     new_tasks = {
@@ -44,6 +48,7 @@ async def get_taskid(task_id:int):
 
 @app.delete("/tasks/{task_id}")
 async def delete_task(task_id:int):
+    await asyncio.sleep(0.5)
     for tasks in tasks_db:
         if tasks["id"] == task_id:
             tasks_db.remove(tasks)
